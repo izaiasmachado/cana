@@ -2,6 +2,13 @@ import math
 
 from algorithms.merge_sort import merge_sort
 
+def select_bfprt_factory(partition_size):
+    def select_bfprt(array, n, k):
+        median_of_medians = SelectBFPRT(array, n, partition_size)
+        return median_of_medians.find_kth_biggest(k)
+
+    return select_bfprt
+
 class SelectBFPRT:
     def __init__(self, array, n, partition_size=5):
         self.array = array
@@ -14,7 +21,7 @@ class SelectBFPRT:
         então, para encontrar a posição do K-ésimo maior elemento,
         basta inverter o array e passar o parâmetro i = n - i + 1
     """
-    def find_kth_smallest(self, i):
+    def find_kth_biggest(self, i):
         k = self.n - i + 1
         k_smalest_index = self.select_bfprt(self.array, 0, self.n - 1, k)
         return self.array[k_smalest_index]
@@ -23,8 +30,14 @@ class SelectBFPRT:
         Retorna o K-ésimo menor elemento do array
     """
     def select_bfprt(self, array, p, r, i):
+        n = r - p + 1
+
         if p == r:
             return p
+
+        if n <= self.partition_size:
+            merge_sort(array, p, r)
+            return p + i - 1
 
         q = self.partition_bfprt(array, p, r)
         k = q - p + 1
@@ -32,9 +45,11 @@ class SelectBFPRT:
         if i == k:
             return q
 
+        # Se i for menor que k, então o K-ésimo menor elemento está no lado esquerdo do array
         if k > i:
             return self.select_bfprt(array, p, q - 1, i)
 
+        # Se i for maior que k, então o K-ésimo menor elemento está no lado direito do array
         return self.select_bfprt(array, q + 1, r, i - k)
 
 
@@ -64,14 +79,13 @@ class SelectBFPRT:
 
         last_index_at_median_group = p + groups_quantity - 1
         last_median_index = last_group_start + last_group_size // 2
-        # print(last_index_at_median_group, last_median_index)
         array[last_median_index], array[last_index_at_median_group] = array[last_index_at_median_group], array[last_median_index]
 
         # Verifica qual K-ésimo menor elemento é a mediana das medianas, pois
         # essas medianas estão desordenadas e podem crescer indefinidamente
         start_median_array = p
         end_median_array = p + groups_quantity - 1    
-        index_median_of_medians = p + math.ceil(groups_quantity / 2)
+        index_median_of_medians = math.ceil(groups_quantity / 2)
 
         k_smalest_index = self.select_bfprt(array, start_median_array, end_median_array, index_median_of_medians)
         array[k_smalest_index], array[r] = array[r], array[k_smalest_index]

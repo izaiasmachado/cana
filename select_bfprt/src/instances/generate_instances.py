@@ -4,9 +4,11 @@ import os
 import sys
 import random
 
-INSTANCES_PATH = os.path.join(os.getcwd(), "data", "instances")
-INSTANCE_SIZE = 100000
-NUMBERS_EACH_LINE = 20
+from instances.config import SETTINGS
+
+INSTANCES_PATH = SETTINGS["INSTANCES_PATH"]
+INSTANCE_SIZE = SETTINGS["INSTANCE_SIZE"]
+NUMBERS_EACH_LINE = SETTINGS["NUMBERS_EACH_LINE"]
 
 def create_instance():
     instance, instance_size = generate_instance()
@@ -43,7 +45,7 @@ def instance_to_string(instance, instance_size):
     instance_string.append(str(instance_size))
 
     # Escreve os elementos em linhas de tamanho NUMBERS_EACH_LINE
-    for i in range(0, total_lines - 1):
+    for i in range(0, total_lines):
         line_elements = instance[i * numbes_each_line : (i + 1) * numbes_each_line]
         line_elements = [str(x) for x in line_elements]
         line_elements = ",".join(line_elements)
@@ -82,5 +84,5 @@ def format_instance_filename(instance_size, index):
     return file_name
 
 if __name__ == "__main__":
-    for i in range(10000):
-        create_instance()
+    # for i in range(10000):
+    create_instance()
