@@ -58,7 +58,7 @@ def clear_instances():
     instances_folder_path = get_instances_folder_path()
     instances_amount = len(os.listdir(instances_folder_path))
 
-    flag_delete = input(f"> Tem certeza que deseja deletar {format_number(instances_amount)} instâncias? [S/n]: ")
+    flag_delete = input(f"> Tem certeza que deseja deletar {instances_amount} instâncias? [S/n]: ")
     should_delete = flag_delete == "S" or flag_delete == "s"
 
     if should_delete:
