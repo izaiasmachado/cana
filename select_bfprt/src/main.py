@@ -6,8 +6,6 @@ from utils import logger, format_number
 from algorithms import select_bfprt_factory
 from instances import create_instance, get_instances_folder_path, get_instances_quantity
 
-NUM_PROCESSES = 3
-
 processes = []
 pids = []
 
@@ -25,11 +23,11 @@ def execute_instances_screen():
 
     execute_instances(num_processes)
 
-def execute_instances(num_processes=NUM_PROCESSES):
+def execute_instances(num_processes=3):
     total_instances = get_instances_quantity()
     instances_per_process = total_instances // num_processes
 
-    for i in range(NUM_PROCESSES):
+    for i in range(num_processes):
         start_instance_id = i * instances_per_process
         end_instance_id = (i + 1) * instances_per_process - 1
 
@@ -37,10 +35,10 @@ def execute_instances(num_processes=NUM_PROCESSES):
         process.start()
         processes.append(process)
 
-    remainder = total_instances % NUM_PROCESSES
+    remainder = total_instances % num_processes
 
     if remainder > 0:
-        last_process_start_instance_id = NUM_PROCESSES * instances_per_process
+        last_process_start_instance_id = num_processes * instances_per_process
         last_process_end_instance_id = last_process_start_instance_id + remainder - 1
 
         process = multiprocessing.Process(target=worker, args=(last_process_start_instance_id, last_process_end_instance_id, pids))

@@ -1,4 +1,5 @@
 import os
+import random
 from utils import logger, format_number
 from execution.instance import Instance
 
@@ -16,7 +17,7 @@ class SelectBFPRTInstanceExecutor:
                 instance = Instance(j, i)
                 self.instances.append(instance)
 
-        return self.instances        
+        return self.instances
 
     def execute(self):
         instances = self.instances
@@ -26,7 +27,7 @@ class SelectBFPRTInstanceExecutor:
             dataset_data = dataset.get_data()
 
             n = instance.get_dataset().get_input_size()
-            k = n // 2
+            k = random.randint(1, n)
 
             instance.set_input([n, k])
 
@@ -34,7 +35,6 @@ class SelectBFPRTInstanceExecutor:
             dataset = instance.get_dataset()
             dataset_name = dataset.get_name()
             algorithm_name = instance.get_algorithm().get_name()
-
 
             output = instance.execute()
             error = instance.get_error()
