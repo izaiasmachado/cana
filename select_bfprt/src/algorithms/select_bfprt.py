@@ -1,8 +1,8 @@
 import math 
 
-from merge_sort import merge_sort
+from algorithms.merge_sort import merge_sort
 
-class MedianOfMedians:
+class SelectBFPRT:
     def __init__(self, array, n, partition_size=5):
         self.array = array
         self.n = n
@@ -90,7 +90,3 @@ def partition(array, p, r):
     array[i + 1], array[r] = array[r], array[i + 1]
 
     return i + 1
-
-if __name__ == '__main__':
-    median_of_medians = MedianOfMedians([1, 6, 2, 5, 4], 5)
-    print(median_of_medians.find_kth_smallest(3))
