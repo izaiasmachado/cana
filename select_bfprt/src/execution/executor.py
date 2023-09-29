@@ -35,25 +35,24 @@ class SelectBFPRTInstanceExecutor:
             dataset_name = dataset.get_name()
             algorithm_name = instance.get_algorithm().get_name()
 
-            logger.info(f"Instance {i + 1} of {len(instances)}")
-            logger.info(f"Algorithm: {instance.get_algorithm().get_name()}")
-            logger.info(f"Dataset: {instance.get_dataset().get_name()}")
-            logger.info(f"Input: {instance.get_input()}")
 
             output = instance.execute()
             error = instance.get_error()
             formated_execution_time = instance.get_formated_execution_time()
-            formated_peak_memory_usage = instance.get_formated_peak_memory_usage()
 
             with open(f'data/output.csv', 'a') as file:
-                file.write(f"{uuid},{algorithm_name},{dataset_name},{n},{k},{output},{formated_execution_time},{formated_peak_memory_usage},{error}\n")
+                file.write(f"{uuid},{algorithm_name},{dataset_name},{n},{k},{output},{formated_execution_time},{error}\n")
 
+            logger.info(f"Instance {i + 1} of {len(instances)}")
+            logger.info(f"Algorithm: {instance.get_algorithm().get_name()}")
+            logger.info(f"Dataset: {instance.get_dataset().get_name()}")
+            logger.info(f"Input: {instance.get_input()}")
+            
             if error:
                 logger.error(f"Error Handled: {error}")
 
             logger.info(f"Output: {output}")
             logger.info(f"Execution Time: {formated_execution_time}")
-            logger.info(f"Peak Memory Usage: {formated_peak_memory_usage}")
             logger.info(f'{"-" * 50}')
-    
+
             del dataset_data

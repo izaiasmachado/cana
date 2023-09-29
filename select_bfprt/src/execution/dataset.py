@@ -47,8 +47,10 @@ class Dataset:
         return self.input_size
 
 class DatasetGroup:
-    def __init__(self, folder_path):
+    def __init__(self, folder_path, start_instance_id, end_instance_id):
         self.folder = Folder(folder_path)
+        self.start_instance_id = start_instance_id
+        self.end_instance_id = end_instance_id
 
     def get_datasets(self):
         datasets = []
@@ -56,11 +58,11 @@ class DatasetGroup:
         text_files = list(filter(lambda file: file.get_name().endswith(".txt"), files))
         sorted_text_files = sorted(text_files, key=lambda file: file.get_name())
         
+        # Usando os indices de início e fim para selecionar apenas um subconjunto de instâncias
+        sorted_text_files = sorted_text_files[self.start_instance_id : self.end_instance_id + 1]
+
         for file in sorted_text_files:
             dataset = Dataset(file)
             datasets.append(dataset)
 
         return datasets
-
-
-        # return datasets
