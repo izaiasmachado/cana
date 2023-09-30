@@ -35,10 +35,6 @@ class SelectBFPRT:
         if p == r:
             return p
 
-        if n <= self.partition_size:
-            merge_sort(array, p, r)
-            return p + i - 1
-
         q = self.partition_bfprt(array, p, r)
         k = q - p + 1
 
