@@ -4,9 +4,11 @@ from utils import logger, format_number
 from execution.instance import Instance
 
 class SelectBFPRTInstanceExecutor:
-    def __init__(self, algorithm_collection, dataset_group):
+    def __init__(self, algorithm_collection, dataset_group, worker_id=None, output_file_name=None):
         self.algorithm_collection = algorithm_collection
         self.dataset_group = dataset_group
+        self.worker_id = worker_id
+        self.output_file_path = 'output.csv' if output_file_name is None else output_file_name
         self.create_instances()
 
     def create_instances(self):
@@ -32,6 +34,8 @@ class SelectBFPRTInstanceExecutor:
             instance.set_input([n, k])
 
             uuid = instance.get_uuid()
+            worker_id = self.worker_id
+
             dataset = instance.get_dataset()
             dataset_name = dataset.get_name()
             algorithm_name = instance.get_algorithm().get_name()
@@ -40,8 +44,8 @@ class SelectBFPRTInstanceExecutor:
             error = instance.get_error()
             formated_execution_time = instance.get_formated_execution_time()
 
-            with open(f'data/output.csv', 'a') as file:
-                file.write(f"{uuid},{algorithm_name},{dataset_name},{n},{k},{output},{formated_execution_time},{error}\n")
+            with open(f'data/{self.output_file_path}', 'a') as file:
+                file.write(f"{uuid},{worker_id},{dataset_name},{algorithm_name},{n},{k},{output},{formated_execution_time},{error}\n")
 
             logger.info(f"Instance {i + 1} of {len(instances)}")
             logger.info(f"Algorithm: {instance.get_algorithm().get_name()}")

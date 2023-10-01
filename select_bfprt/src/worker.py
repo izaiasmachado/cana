@@ -1,4 +1,5 @@
 import os
+import sys
 from utils import logger, format_number
 
 from algorithms import select_bfprt_factory
@@ -14,22 +15,21 @@ def create_algorithm_collection():
 
     return algorithm_collection
 
-def create_dataset_group(start_instance_id, end_instance_id):
+def create_dataset_group(instances_quantity, instance_size):
     dataset_group_path = get_instances_folder_path()
     dataset_group = DatasetGroup(dataset_group_path, start_instance_id, end_instance_id)
     return dataset_group
 
-import sys
-
 def execute_instances():
-    # Exemplo: python3 main.py 1 10
-    start_instance_id = int(sys.argv[1])
-    end_instance_id = int(sys.argv[2])
+    worker_id = int(sys.argv[1])
+    instance_size = int(sys.argv[2])
+    instances_quantity = int(sys.argv[3])
+    output_file_name = sys.argv[4]
     
     algorithm_collection = create_algorithm_collection()
-    dataset_group = create_dataset_group(start_instance_id, end_instance_id)
-    
-    executor = SelectBFPRTInstanceExecutor(algorithm_collection, dataset_group)
+    dataset_group = DatasetGroup(instances_quantity, instance_size)
+
+    executor = SelectBFPRTInstanceExecutor(algorithm_collection, dataset_group, worker_id=worker_id, output_file_name=output_file_name)
     executor.execute()
 
 if __name__ == "__main__":

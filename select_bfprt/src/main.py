@@ -1,4 +1,5 @@
 import os
+import time
 import multiprocessing
 import signal
 from utils import logger, format_number
@@ -9,39 +10,28 @@ from instances import create_instance, get_instances_folder_path, get_instances_
 processes = []
 pids = []
 
-def worker(start_instance_id, end_instance_id, pid_list):
+def worker(worker_id, instance_size, instances_quantity, output_file_name, pid_list):
     pid = os.getpid()
-    pid_list.append(pid)  # Adicione o PID à lista
-    os.system(f"python src/worker.py {start_instance_id} {end_instance_id}")
+    pid_list.append(pid)
+    os.system(f"python src/worker.py {worker_id} {instance_size} {instances_quantity} {output_file_name}")
 
 def execute_instances_screen():
     num_processes = int(input('> Digite a quantidade de processos paralelos que deseja utilizar: '))
+    instance_size = int(input('> Digite o tamanho das instâncias que deseja criar: '))
+    instances_quantity = int(input('> Digite a quantidade de instâncias que deseja criar: '))
 
     if num_processes <= 0:
         print("[ERRO] O número de processos deve ser maior que 0!")
         return
 
-    execute_instances(num_processes)
+    execute_instances(num_processes, instance_size, instances_quantity)
 
-def execute_instances(num_processes=3):
-    total_instances = get_instances_quantity()
-    instances_per_process = total_instances // num_processes
+def execute_instances(num_processes=3, instance_size=100000, instances_quantity=1):
+    instances_per_process = instances_quantity // num_processes
+    output_file_name = f'{instances_quantity}_{instance_size}_{time.strftime("%Y%m%d-%H%M%S")}.csv'
 
-    for i in range(num_processes):
-        start_instance_id = i * instances_per_process
-        end_instance_id = (i + 1) * instances_per_process - 1
-
-        process = multiprocessing.Process(target=worker, args=(start_instance_id, end_instance_id, pids))
-        process.start()
-        processes.append(process)
-
-    remainder = total_instances % num_processes
-
-    if remainder > 0:
-        last_process_start_instance_id = num_processes * instances_per_process
-        last_process_end_instance_id = last_process_start_instance_id + remainder - 1
-
-        process = multiprocessing.Process(target=worker, args=(last_process_start_instance_id, last_process_end_instance_id, pids))
+    for worker_id in range(num_processes):
+        process = multiprocessing.Process(target=worker, args=(worker_id, instance_size, instances_per_process, output_file_name, pids))
         process.start()
         processes.append(process)
 
@@ -69,19 +59,13 @@ def main_menu():
     try:
         while True:
             print("===== Select BFPRT =====")
-            print("1 - Executar algoritmos para as Instâncias")
-            print("2 - Criar Instâncias")
-            print("3 - Limpar Instâncias")
+            print("1 - Executar várias instâncias")
             print("0 - Sair")
 
             option = int(input("> Opção: "))
 
             if option == 1:
                 execute_instances_screen()
-            elif option == 2:
-                create_instances()
-            elif option == 3:
-                clear_instances()
             elif option == 0:
                 break
             else:

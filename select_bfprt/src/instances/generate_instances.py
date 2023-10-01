@@ -16,9 +16,8 @@ def create_instance():
     print(f"Creating instance {instance_name} with {instance_size} elements")
     write_instance(instance, instance_size, instance_name)
 
-def generate_instance():
+def generate_instance(instance_size=INSTANCE_SIZE):
     instance = []
-    instance_size = INSTANCE_SIZE
 
     # Gera uma lista preenchida com valores de 0 a instance_size - 1
     for i in range(instance_size):
