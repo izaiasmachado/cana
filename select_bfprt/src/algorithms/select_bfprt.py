@@ -22,12 +22,11 @@ class SelectBFPRT:
         basta inverter o array e passar o parâmetro i = n - i + 1
     """
     def find_kth_biggest(self, i):
-        k = self.n - i + 1
-        k_smalest_index = self.select_bfprt(self.array, 0, self.n - 1, k)
+        k_smalest_index = self.select_bfprt(self.array, 0, self.n - 1, i)
         return self.array[k_smalest_index]
 
     """
-        Retorna o K-ésimo menor elemento do array
+        Retorna o K-ésimo maior elemento do array
     """
     def select_bfprt(self, array, p, r, i):
         n = r - p + 1
@@ -36,18 +35,15 @@ class SelectBFPRT:
             return p
 
         q = self.partition_bfprt(array, p, r)
-        k = q - p + 1
+        k = r - q + 1
 
         if i == k:
             return q
 
-        # Se i for menor que k, então o K-ésimo menor elemento está no lado esquerdo do array
-        if k > i:
-            return self.select_bfprt(array, p, q - 1, i)
+        if i > k:
+            return self.select_bfprt(array, p, q - 1, i - k)
 
-        # Se i for maior que k, então o K-ésimo menor elemento está no lado direito do array
-        return self.select_bfprt(array, q + 1, r, i - k)
-
+        return self.select_bfprt(array, q + 1, r, i)
 
     def partition_bfprt(self, array, p, r):
         # Divide o array em grupos de 5 elementos
