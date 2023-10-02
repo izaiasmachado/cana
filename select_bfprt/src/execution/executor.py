@@ -25,38 +25,29 @@ class SelectBFPRTInstanceExecutor:
         instances = self.instances
 
         for i, instance in enumerate(instances):
+            logger.info(f"Instance {i + 1} of {len(instances)}")
+            
             dataset = instance.get_dataset()
-            dataset_data = dataset.get_data()
 
-            n = instance.get_dataset().get_input_size()
+            n = dataset.get_input_size()
             k = random.randint(1, n)
-
             instance.set_input([n, k])
 
-            uuid = instance.get_uuid()
-            worker_id = self.worker_id
+            instance.execute()
+            instance.log_results()
+            self.print_results_to_file(instance)
 
-            dataset = instance.get_dataset()
-            dataset_name = dataset.get_name()
-            algorithm_name = instance.get_algorithm().get_name()
+    def print_results_to_file(self, instance):
+        uuid = instance.get_uuid()
+        worker_id = self.worker_id
+        dataset_name = instance.get_dataset().get_name()
+        algorithm_name = instance.get_algorithm().get_name()
+        n, k = instance.get_input()
+        output = instance.output
+        formated_execution_time = instance.get_formated_execution_time()
+        error = instance.get_error()
 
-            output = instance.execute()
-            error = instance.get_error()
-            formated_execution_time = instance.get_formated_execution_time()
+        with open(f'data/{self.output_file_path}', 'a') as file:
+            file.write(f"{uuid},{worker_id},{dataset_name},{algorithm_name},{n},{k},{output},{formated_execution_time},{error}\n")
 
-            with open(f'data/{self.output_file_path}', 'a') as file:
-                file.write(f"{uuid},{worker_id},{dataset_name},{algorithm_name},{n},{k},{output},{formated_execution_time},{error}\n")
 
-            logger.info(f"Instance {i + 1} of {len(instances)}")
-            logger.info(f"Algorithm: {instance.get_algorithm().get_name()}")
-            logger.info(f"Dataset: {instance.get_dataset().get_name()}")
-            logger.info(f"Input: {instance.get_input()}")
-            
-            if error:
-                logger.error(f"Error Handled: {error}")
-
-            logger.info(f"Output: {output}")
-            logger.info(f"Execution Time: {formated_execution_time}")
-            logger.info(f'{"-" * 50}')
-
-            del dataset_data

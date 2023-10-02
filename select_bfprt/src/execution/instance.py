@@ -22,7 +22,8 @@ class Instance:
         return self.dataset
 
     def get_params(self):
-        data = self.dataset.get_data()
+        dataset = self.get_dataset()
+        data = dataset.get_data()
         params = [data]
 
         if self.input is None:
@@ -43,6 +44,7 @@ class Instance:
 
     def execute(self):
         try:
+            dataset_data = self.get_dataset().get_data()
             params = self.get_params()
 
             tracemalloc.start()
@@ -54,6 +56,7 @@ class Instance:
             tracemalloc.stop()
 
             self.execution_time = end - start
+            del dataset_data
             return self.output
         except Exception as e:
             error_name = e.__class__.__name__
@@ -82,3 +85,16 @@ class Instance:
             return format_number(self.peak_memory_usage)
         
         return None
+
+    def log_results(self):
+        logger.info(f"Algorithm: {self.get_algorithm().get_name()}")
+        logger.info(f"Dataset: {self.get_dataset().get_name()}")
+        logger.info(f"Input: {self.get_input()}")
+
+        if self.get_error():
+            logger.error(f"Error Handled: {self.get_error()}")
+
+        logger.info(f"Output: {self.output}")
+        logger.info(f"Execution Time: {self.get_formated_execution_time()}")
+        logger.info(f"Peak Memory Usage: {self.get_formated_peak_memory_usage()}")
+        logger.info(f'{"-" * 50}')

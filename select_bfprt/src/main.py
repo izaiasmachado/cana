@@ -38,34 +38,36 @@ def execute_instances(num_processes=3, instance_size=100000, instances_quantity=
     for process in processes:
         process.join()
 
-def create_instances():
-    instances_amount = int(input("> Digite a quantidade de instâncias que deseja criar: "))
+def execute_one_instance_screen():
+    instance_size = int(input('> Digite o tamanho da instância que você vai digitar: '))
+    input_values = list(map(int, input('> Digite (ou cole) os valores da instância separados por vírgula (,): ').split(',')))
 
-    for _ in range(instances_amount):
-        create_instance()
+    while len(input_values) != instance_size:
+        print(f'Ainda faltam {instance_size - len(input_values)} valores para completar a instância!')
+        additional_input_values = list(map(int, input('> Digite (ou cole) os valores da instância separados por vírgula (,): ').split(',')))
+        input_values.extend(additional_input_values)
 
-def clear_instances():
-    instances_folder_path = get_instances_folder_path()
-    instances_amount = len(os.listdir(instances_folder_path))
+    execute_outside_of_worker(instance_size, input_values)
 
-    flag_delete = input(f"> Tem certeza que deseja deletar {instances_amount} instâncias? [S/n]: ")
-    should_delete = flag_delete == "S" or flag_delete == "s"
+    input_option = input('> Deseja executar outra instância? [S/n]: ')
 
-    if should_delete:
-        os.system(f"rm -rf {instances_folder_path}/*")
-        print("Instâncias deletadas com sucesso!")
+    if input_option.lower() == 's' or input_option.lower() == 'S':
+        execute_one_instance_screen()
 
 def main_menu():
     try:
         while True:
             print("===== Select BFPRT =====")
             print("1 - Executar várias instâncias")
+            print("2 - Executar uma instância")
             print("0 - Sair")
 
             option = int(input("> Opção: "))
 
             if option == 1:
                 execute_instances_screen()
+            elif option == 2:
+                execute_one_instance_screen()
             elif option == 0:
                 break
             else:
