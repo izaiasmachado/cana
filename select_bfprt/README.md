@@ -2,6 +2,8 @@
 
 Esse código visa gerar muitas instâncias, executar o algoritmo [Select BFPRT](http://people.csail.mit.edu/rivest/pubs/BFPRT73.pdf) para diferentes tamanhos de partição e coletar os tempos de execução. O algoritmo Select BFPRT busca encontrar o i-ésimo maior elemento de um vetor utilizando a [mediana das medianas](https://en.wikipedia.org/wiki/Median_of_medians).
 
+Além do código, esse repositório também acompanha [um relatório que destá dentro da pasta docs](./docs/Izaias%20Machado%20Pessoa%20Neto%20-%20497372%20-%20Select%20BFPRT%20-%20CANA.pdf) que contempla a explicação do funcionamento dos algoritmos `Partition`, `Partition-BFPRT` e `Select-BFPRT`, prova da complexidade do `Select-BFPRT` e também os resultados desse experimento.
+
 ## Como rodar?
 
 Por meio do terminal ou prompt de comandos do Windows, naveque até a raíz desse projeto e digite o seguinte comando:
