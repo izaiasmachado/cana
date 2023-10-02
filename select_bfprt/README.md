@@ -24,6 +24,31 @@ Para cada execução em massa, é criado um novo arquivo `.csv` dentro da pasta 
 
 Para executar o programa por uma longa duração, utilize o [Screen](https://linuxize.com/post/how-to-use-linux-screen/) em ambientes Linux/MacOS. Com isso, o terminal da execução pode ser desacoplado e o arquivo de logs pode ser visualizado utilizando o `tail -f src/data/logs.log`
 
+## Como visualizar os dados?
+
+Garanta que você tem a biblioteca Pandas do Python instalada. Caso não tenham, rode o comando abaixo para a instalar utilizando o gerenciador de pacotes Pip.
+
+```
+pip install pandas
+```
+
+Com a biblioteca instalada, abra o arquivo `src/statistics.py` e o nome de arquivo escrito na variável `file_name` pelo arquivo de resultado que você quer analisar. Com isso feito, basta rodar o comando abaixo.
+
+```
+python src/statistics.py
+```
+
+O resultado vai ser similar ao da tabela abaixo
+
+```
+               Algoritmo  Tempo Médio de Execução  Desvio Padrão
+0  Select BFPRT - r = 11                 3.330611      17.046008
+1   Select BFPRT - r = 3                 5.093321      12.740226
+2   Select BFPRT - r = 5                 3.700169      16.541186
+3   Select BFPRT - r = 7                 3.265799      12.181696
+4   Select BFPRT - r = 9                 3.162925      12.181599
+```
+
 ## Árvore de Diretórios
 
 Esta árvore está sendo disposta apenas que possa ser conferido os arquivos que estão anexados.
