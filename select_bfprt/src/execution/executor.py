@@ -14,9 +14,13 @@ class SelectBFPRTInstanceExecutor:
     def create_instances(self):
         self.instances = []
 
-        for i in self.dataset_group.get_datasets():
-            for j in self.algorithm_collection.get_algorithms():
-                instance = Instance(j, i)
+        for dataset in self.dataset_group.get_datasets():
+            n = dataset.get_input_size()
+            k = random.randint(1, n)
+
+            for algorithm in self.algorithm_collection.get_algorithms():
+                instance = Instance(algorithm, dataset)
+                instance.set_input([n, k])
                 self.instances.append(instance)
 
         return self.instances
@@ -26,13 +30,6 @@ class SelectBFPRTInstanceExecutor:
 
         for i, instance in enumerate(instances):
             logger.info(f"Instance {i + 1} of {len(instances)}")
-            
-            dataset = instance.get_dataset()
-
-            n = dataset.get_input_size()
-            k = random.randint(1, n)
-            instance.set_input([n, k])
-
             instance.execute()
             instance.log_results()
             self.print_results_to_file(instance)
@@ -49,5 +46,3 @@ class SelectBFPRTInstanceExecutor:
 
         with open(f'data/{self.output_file_path}', 'a') as file:
             file.write(f"{uuid},{worker_id},{dataset_name},{algorithm_name},{n},{k},{output},{formated_execution_time},{error}\n")
-
-

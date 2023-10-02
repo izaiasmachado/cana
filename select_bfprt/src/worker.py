@@ -5,32 +5,17 @@ from utils import logger, format_number
 from algorithms import select_bfprt_factory
 from instances import create_instance, get_instances_folder_path
 from execution import AlgorithmCollection, DatasetGroup, SelectBFPRTInstanceExecutor
+from algorithms import create_algorithm_collection
 
-def create_algorithm_collection():
-    algorithm_collection = AlgorithmCollection()
-    partition_sizes = [3, 5, 7, 9, 11]
-
-    for r in partition_sizes:
-        algorithm_collection.add_algorithm(f"Select BFPRT - r = {r}", select_bfprt_factory(r))
-
-    return algorithm_collection
-
-def create_dataset_group(instances_quantity, instance_size):
-    dataset_group_path = get_instances_folder_path()
-    dataset_group = DatasetGroup(dataset_group_path, start_instance_id, end_instance_id)
-    return dataset_group
+from execution.execution import manual_execution, random_execution
 
 def execute_instances():
     worker_id = int(sys.argv[1])
     instance_size = int(sys.argv[2])
     instances_quantity = int(sys.argv[3])
     output_file_name = sys.argv[4]
-    
-    algorithm_collection = create_algorithm_collection()
-    dataset_group = DatasetGroup(instances_quantity, instance_size)
 
-    executor = SelectBFPRTInstanceExecutor(algorithm_collection, dataset_group, worker_id=worker_id, output_file_name=output_file_name)
-    executor.execute()
+    random_execution(worker_id, instance_size, instances_quantity, output_file_name)
 
 if __name__ == "__main__":
     try:

@@ -1,1 +1,2 @@
 from algorithms.select_bfprt import SelectBFPRT, select_bfprt_factory
+from algorithms.algorithms import create_algorithm_collection

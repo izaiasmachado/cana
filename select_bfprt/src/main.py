@@ -7,6 +7,8 @@ from utils import logger, format_number
 from algorithms import select_bfprt_factory
 from instances import create_instance, get_instances_folder_path, get_instances_quantity
 
+from execution.execution import manual_execution
+
 processes = []
 pids = []
 
@@ -42,12 +44,13 @@ def execute_one_instance_screen():
     instance_size = int(input('> Digite o tamanho da instância que você vai digitar: '))
     input_values = list(map(int, input('> Digite (ou cole) os valores da instância separados por vírgula (,): ').split(',')))
 
-    while len(input_values) != instance_size:
-        print(f'Ainda faltam {instance_size - len(input_values)} valores para completar a instância!')
-        additional_input_values = list(map(int, input('> Digite (ou cole) os valores da instância separados por vírgula (,): ').split(',')))
+    while len(input_values) < instance_size:
+        additional_input_values = list(map(int, input(f'> Digite (ou cole) os outros {instance_size - len(input_values)} valores: ').split(',')))
         input_values.extend(additional_input_values)
 
-    execute_outside_of_worker(instance_size, input_values)
+    instance = input_values[:instance_size]
+
+    manual_execution(instance)
 
     input_option = input('> Deseja executar outra instância? [S/n]: ')
 
