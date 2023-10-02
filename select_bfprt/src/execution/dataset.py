@@ -1,10 +1,7 @@
 import uuid
 import time
 from utils.logger import logger
-from utils import Folder, File
-from instances import get_instance_path
-
-from instances import get_instance_path, get_data_from_file, generate_instance
+from instances import generate_instance
 
 class Dataset:
     def __init__(self, id, instance_size):

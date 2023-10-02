@@ -97,4 +97,3 @@ class Instance:
         logger.info(f"Output: {self.output}")
         logger.info(f"Execution Time: {self.get_formated_execution_time()}")
         logger.info(f"Peak Memory Usage: {self.get_formated_peak_memory_usage()}")
-        logger.info(f'{"-" * 50}')

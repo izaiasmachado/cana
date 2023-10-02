@@ -1,10 +1,6 @@
 import os
 import sys
-from utils import logger, format_number
-
-from algorithms import select_bfprt_factory
-from instances import create_instance, get_instances_folder_path
-from execution import AlgorithmCollection, DatasetGroup, SelectBFPRTInstanceExecutor
+from execution import DatasetGroup, SelectBFPRTInstanceExecutor
 from algorithms import create_algorithm_collection
 
 def random_execution(worker_id, instance_size, instances_quantity, output_file_name):

@@ -1,13 +1,5 @@
-import os
 import sys
-from utils import logger, format_number
-
-from algorithms import select_bfprt_factory
-from instances import create_instance, get_instances_folder_path
-from execution import AlgorithmCollection, DatasetGroup, SelectBFPRTInstanceExecutor
-from algorithms import create_algorithm_collection
-
-from execution.execution import manual_execution, random_execution
+from execution.execution import random_execution
 
 def execute_instances():
     worker_id = int(sys.argv[1])

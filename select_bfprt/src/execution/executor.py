@@ -8,7 +8,7 @@ class SelectBFPRTInstanceExecutor:
         self.algorithm_collection = algorithm_collection
         self.dataset_group = dataset_group
         self.worker_id = worker_id
-        self.output_file_path = 'output.csv' if output_file_name is None else output_file_name
+        self.output_file_path = output_file_name
         self.create_instances()
 
     def create_instances(self):
@@ -29,9 +29,11 @@ class SelectBFPRTInstanceExecutor:
         instances = self.instances
 
         for i, instance in enumerate(instances):
-            logger.info(f"Instance {i + 1} of {len(instances)}")
             instance.execute()
+
+            logger.info(f"Instance {i + 1} of {len(instances)}")
             instance.log_results()
+            logger.info(f'{"-" * 50}')
             self.print_results_to_file(instance)
 
     def print_results_to_file(self, instance):
@@ -43,6 +45,9 @@ class SelectBFPRTInstanceExecutor:
         output = instance.output
         formated_execution_time = instance.get_formated_execution_time()
         error = instance.get_error()
+
+        if self.output_file_path is None:
+            return
 
         with open(f'data/{self.output_file_path}', 'a') as file:
             file.write(f"{uuid},{worker_id},{dataset_name},{algorithm_name},{n},{k},{output},{formated_execution_time},{error}\n")
