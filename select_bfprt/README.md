@@ -1,5 +1,15 @@
 # Select BFPRT
 
+```
+Disciplina      : ECO0047 - Construção e Análise de Algoritmos
+Professor       : Antônio Josefran de Oliveira Bastos
+Descrição       : Trabalho 01 - Select BFPRT
+Autor(a)        : Izaias Machado Pessoa Neto
+Data de Entrega : 02/10/2023
+```
+
+## Sobre
+
 Esse código visa gerar muitas instâncias, executar o algoritmo [Select BFPRT](http://people.csail.mit.edu/rivest/pubs/BFPRT73.pdf) para diferentes tamanhos de partição e coletar os tempos de execução. O algoritmo Select BFPRT busca encontrar o i-ésimo maior elemento de um vetor utilizando a [mediana das medianas](https://en.wikipedia.org/wiki/Median_of_medians).
 
 Além do código, esse repositório também acompanha [um relatório, que está dentro da pasta docs,](./docs/Izaias%20Machado%20Pessoa%20Neto%20-%20497372%20-%20Select%20BFPRT%20-%20CANA.pdf) que contempla a explicação do funcionamento dos algoritmos `Partition`, `Partition-BFPRT` e `Select-BFPRT`, prova da complexidade do `Select-BFPRT`, passos metodológicos e resultados desse experimento.
