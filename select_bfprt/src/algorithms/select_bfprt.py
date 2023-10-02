@@ -73,7 +73,7 @@ class SelectBFPRT:
         last_median_index = last_group_start + last_group_size // 2
         array[last_median_index], array[last_index_at_median_group] = array[last_index_at_median_group], array[last_median_index]
 
-        # Verifica qual K-ésimo menor elemento é a mediana das medianas, pois
+        # Verifica qual K-ésimo maior elemento é a mediana das medianas, pois
         # essas medianas estão desordenadas e podem crescer indefinidamente
         start_median_array = p
         end_median_array = p + groups_quantity - 1    
